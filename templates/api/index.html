@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock title %}
+{% block content %}
+
+<div class="container">
+  <br>
+  <form action="/" method="GET">
+    <div class="form-inline">
+      <div class="form-group inline">
+        <input type="text"  required="true" name="search_term" class="form-control" id="text" placeholder="search term">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+    <div class="form-inline">
+    <div class="form-group inline">
+      <input type="text" name="username" class="form-control" id="username" placeholder="username">
+    </div>
+    <div class="form-group inline">
+      <input type="date" name="date" class="form-control" id="date" placeholder="Date">
+    </div>
+    </div>
+  </form>
+  <br>
+  <div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Date</th>
+        <th>User</th>
+        <th>Tweet</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tweet in tweets %}
+        <tr>
+            <td>{{tweet.0}}</td>
+            <td>{{tweet.1}}</td>
+            <td>{{tweet.2}}</td>
+            <td>{{tweet.3}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+{% endblock content %}
