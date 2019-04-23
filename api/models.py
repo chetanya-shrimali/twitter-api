@@ -4,8 +4,10 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils import timezone
 
+# keeps track of all searches
 class SearchPhrase(models.Model):
     phrase = models.CharField(max_length=1000)
+    sub_phrase = models.CharField(max_length=1000)
     date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
@@ -18,6 +20,7 @@ class SearchPhrase(models.Model):
         verbose_name_plural = 'SearchPhrases'
 
 
+# stores all tweets
 class Tweet(models.Model):
     search_phrase = models.ForeignKey(SearchPhrase, related_name='tweet_set', on_delete=models.CASCADE)
     date = models.DateField(blank=True, null=True)

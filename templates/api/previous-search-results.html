@@ -23,5 +23,20 @@
         </tbody>
       </table>
     </div>
+    <div class="pagination">
+        <span class="step-links">
+            {% if tweets.has_previous %}
+                <button onclick='getNewUrl({{ tweets.previous_page_number }})'>previous</button>
+            {% endif %}
+
+            <span class="current">
+                Page {{ tweets.number }} of {{ tweets.paginator.num_pages }}.
+            </span>
+
+            {% if tweets.has_next %}
+                <button onclick='getNewUrl({{ tweets.next_page_number }})' >next</button>
+            {% endif %}
+        </span>
+    </div>
 </div>
 {% endblock content %}

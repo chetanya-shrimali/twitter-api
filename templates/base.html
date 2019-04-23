@@ -18,5 +18,21 @@
 {% block content %}
 
 {% endblock content %}
+<script>
+function getNewUrl(data) {
+  oldUrl = $(location).attr('href');
+  var data_val = data;
+  var newUrl;
+  if (/[?&]page\s*=/.test(oldUrl)) {
+    newUrl = oldUrl.replace(/(?:([?&])page\s*=[^?&]*)/, "$1page=" + data_val);
+  } else if (/\?/.test(oldUrl)) {
+    newUrl = oldUrl + "&page=" + data_val;
+  } else {
+    newUrl = oldUrl + "?page=" + data_val;
+  }
+  console.log(oldUrl + "\n...becomes...\n" + newUrl);
+  window.location.href = newUrl;
+}
+</script>
 </body>
 </html>

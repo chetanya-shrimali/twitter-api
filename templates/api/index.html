@@ -54,7 +54,7 @@
   <div class="pagination">
     <span class="step-links">
         {% if tweets.has_previous %}
-            <a href="?page={{ tweets.previous_page_number }}">previous</a>
+            <button onclick='getNewUrl({{ tweets.previous_page_number }})'>previous</button>
         {% endif %}
 
         <span class="current">
@@ -62,7 +62,7 @@
         </span>
 
         {% if tweets.has_next %}
-            <a href="?page={{ tweets.next_page_number }}">next</a>
+            <button onclick='getNewUrl({{ tweets.next_page_number }})' >next</button>
         {% endif %}
     </span>
   </div>
