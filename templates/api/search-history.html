@@ -2,11 +2,11 @@
 {% block title %}Search History{% endblock title %}
 {% block content %}
     <div class="container">
-        <a href="{% url 'api:index'%}">Home</a>
-        <ul>
-            {% for search in searches %}
-                <li><a href="{% url 'api:previous-results' search.pk %}">{{search.phrase}}<a></li>
-            {% endfor %}
-        </ul>
+        <h3 class='text-center'><a href="{% url 'api:index'%}">Home</a></h3>
+        <h5> Name in the list follows the order <b>search query</b>(search keyword/username and date of tweet) followed by <b> current datetime</b> </h5>
+        <div class="list-group">
+        {% for search in searches %}
+            <a href="{% url 'api:previous-results' search.pk %}" class="list-group-item list-group-item-action">{{search.phrase}}<a>
+        {% endfor %}
     </div>
 {% endblock content %}

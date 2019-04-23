@@ -8,6 +8,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
 from api.models import SearchPhrase, Tweet
 from datetime import datetime
+import pytz
 from credentials import API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET
 
 
@@ -23,8 +24,9 @@ def index(request):
 
     # If we have search term or username in the parameters
     if all(elem in request.GET for elem in ['search_term', 'username']):
-        sub_phrase = str(search_term) + ' ' + str(username) + ' ' + str(date)
-        phrase = sub_phrase + ' ' + str(datetime.now())
+        tz = pytz.timezone('Asia/Calcutta')
+        sub_phrase =  str(date) + ' ' + str(search_term) + ' ' + str(username)
+        phrase = sub_phrase + ' ' + str(datetime.now(tz))
         if not page:
 
 
@@ -50,7 +52,7 @@ def index(request):
 
             tweets = paginator_handler(tweets_list, page)
     else:
-        message = 'Please enter the search term or username to get the tweets'
+        message = 'Please enter a search term or username to get the tweets'
     return render(request, 'api/index.html', {'tweets': tweets, 'message': message})
 
 

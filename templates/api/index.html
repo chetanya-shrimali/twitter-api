@@ -3,33 +3,24 @@
 {% block content %}
 
 <div class="container">
-  <div class="row">
-    <div class="col-md-8">
-      <br>
-      <form action="/" method="GET">
-        <div class="form-inline">
-          <div class="form-group inline">
-            <input type="text" name="search_term" class="form-control" id="text" placeholder="search term">
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+  <br>
+    <form action="/" method="GET">
+      <div class="input-group mb-3">
+        <input type="text" name="search_term" class="form-control" id="text" placeholder="search term">
+        <div class="input-group-append">
+          <button type="submit" class="btn   btn-primary">Submit</button>
         </div>
-        <div class="form-inline">
-        <div class="form-group inline">
-          <input type="text" name="username" class="form-control" id="username" placeholder="username">
-        </div>
-        <div class="form-group inline">
-          <input type="date" name="date" class="form-control" id="date" placeholder="Date">
-        </div>
-        </div>
-      </form>
-      <br>
-    </div>
-    <div class="col-md-4">
-      <a href="{% url 'api:search-history' %}">Search History</a>
-    </div>
-  </div>
+      </div>
+      <div class="input-group mb-3">
+        <input type="text" name="username" class="form-control" id="username" placeholder="username">
+        
+        <input type="date" name="date" class="form-control" id="date" placeholder="Date">
+      </div>
+    </form>
+    <a href="{% url 'api:search-history' %}"><i class="fas fa-history"></i>Search History</a>
+    <br>
   {% if message %}
-    <h1>{{message}}</h1>
+    <h3 class='text-center'>{{message}}</h3>
   {% else %}
     <div class="table-responsive">
       <table class="table">
@@ -51,10 +42,10 @@
         </tbody>
       </table>
     </div>
-  <div class="pagination">
+  <div class="pagination text-center" style="display: block;">
     <span class="step-links">
         {% if tweets.has_previous %}
-            <button onclick='getNewUrl({{ tweets.previous_page_number }})'>previous</button>
+            <button class="btn btn-link" onclick='getNewUrl({{ tweets.previous_page_number }})'>Prev</button>
         {% endif %}
 
         <span class="current">
@@ -62,8 +53,9 @@
         </span>
 
         {% if tweets.has_next %}
-            <button onclick='getNewUrl({{ tweets.next_page_number }})' >next</button>
+            <button class="btn btn-link"  onclick='getNewUrl({{ tweets.next_page_number }})'>Next</button>
         {% endif %}
+  
     </span>
   </div>
   {% endif %}
