@@ -5,15 +5,30 @@ from django.shortcuts import render
 import requests
 from requests_oauthlib import OAuth1
 
+
 def index(request):
     # sending request
     search_term = request.GET.get('search_term')
     username = request.GET.get('username')
     date = request.GET.get('date')
-    tweets = get_tweets(search_term, username, date)
 
-    # print(tweets[0])
-    return render(request, 'api/index.html', {'tweets': tweets})
+    tweets = ''
+    message = ''
+
+    if not search_term and not username:
+        message = 'Please enter the values to fetch tweet results!'
+    else:
+        tweets = get_tweets(search_term, username, date)
+
+    return render(request, 'api/index.html', {'tweets': tweets, 'message': message})
+
+
+def search_history(request):
+    return render(request, 'api/search-history.html')
+
+
+def previous_search_results(request):
+    return render(request, 'api/previous-search-results.html')
 
 
 # fetches tweets
@@ -26,9 +41,17 @@ def get_tweets(search_term, username, date):
 
     auth = OAuth1(API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
+    search_keyword = ''
+
+    if search_term:
+        search_keyword = search_term
+    else:
+        search_keyword = 'from:'+str(username)
+
+    print(search_keyword)
 
     search_params = {
-        'q': search_term,
+        'q': search_keyword,
         'result_type': 'recent',
         'until': date,
         'count': 100
