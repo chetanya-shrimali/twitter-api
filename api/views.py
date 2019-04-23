@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render
 import requests
 from requests_oauthlib import OAuth1
+
+from django.shortcuts import render
+from api.models import SearchPhrase, Tweet
+from datetime import datetime
 
 
 def index(request):
@@ -18,7 +21,13 @@ def index(request):
     if not search_term and not username:
         message = 'Please enter the values to fetch tweet results!'
     else:
-        tweets = get_tweets(search_term, username, date)
+        phrase = str(search_term) + ' ' + str(username) + ' ' + str(date) + ' ' + str(datetime.now())
+        SearchPhrase(phrase=phrase).save()
+
+        tweets = get_tweets(search_term, username, date, phrase)
+        Tweet.objects.bulk_create(tweets)
+
+        tweets = Tweet.objects.filter(search_phrase=SearchPhrase.objects.get(phrase=phrase))
 
     return render(request, 'api/index.html', {'tweets': tweets, 'message': message})
 
@@ -32,7 +41,7 @@ def previous_search_results(request):
 
 
 # fetches tweets
-def get_tweets(search_term, username, date):
+def get_tweets(search_term, username, date, phrase):
     base_url = 'https://api.twitter.com/'
     API_KEY='3EKHHmkx3AsMZRKbO0yFtEMJZ'
     API_SECRET='ZQC50IwRoKmjHTytNsVn7lzc2sMj6FW55NoT92xeSlheRxsSAR'
@@ -60,8 +69,13 @@ def get_tweets(search_term, username, date):
     search_url = '{}1.1/search/tweets.json'.format(base_url)
     tweets = requests.get(search_url, params=search_params, auth=auth)
     list_ = []
-    count = 0
+    # count = 0
+    search_phrase = SearchPhrase.objects.get(phrase=phrase)
+    print(search_phrase.id)
     for i in tweets.json()['statuses']:
-        count += 1
-        list_.append([count, i['created_at'], i['user']['name'], i['text']])
+        s = i['created_at']
+        f1 = '%a %b %d %H:%M:%S +0000 %Y'
+        f2 = '%Y-%m-%d'
+        out = datetime.strptime('Thu Apr 23 13:38:19 +0000 2009', f1).strftime(f2)
+        list_.append(Tweet(search_phrase=search_phrase, date=out, user=i['user']['name'], post=i['text']))
     return list_

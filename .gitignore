@@ -3,4 +3,4 @@ api/*.pyc
 twitter_api/*.pyc
 db.sqlite3
 venv
-api/migrations/__init__.pyc
+api/migrations/*.pyc
