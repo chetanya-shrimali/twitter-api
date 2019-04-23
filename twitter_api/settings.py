@@ -25,7 +25,7 @@ SECRET_KEY = 'svx=4qg005la4@@=5x-iv)dycjz8rrqf355tw9*k6csa8m$c4o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['twitter-api-project.herokuapp.com']
+ALLOWED_HOSTS = ['twitter-api-project.herokuapp.com', 'localhost']
 
 
 # Extra lookup directories for collectstatic to find static files
