@@ -24,24 +24,27 @@ def index(request):
         phrase = str(search_term) + ' ' + str(username) + ' ' + str(date) + ' ' + str(datetime.now())
         SearchPhrase(phrase=phrase).save()
 
-        tweets = get_tweets(search_term, username, date, phrase)
+        search_phrase = SearchPhrase.objects.get(phrase=phrase)
+
+        tweets = get_tweets(search_term, username, date, phrase, search_phrase)
         Tweet.objects.bulk_create(tweets)
 
-        tweets = Tweet.objects.filter(search_phrase=SearchPhrase.objects.get(phrase=phrase))
+        tweets = Tweet.objects.filter(search_phrase=search_phrase)
 
     return render(request, 'api/index.html', {'tweets': tweets, 'message': message})
 
 
 def search_history(request):
-    return render(request, 'api/search-history.html')
+    searches = SearchPhrase.objects.all().order_by()
+    return render(request, 'api/search-history.html', {'searches': searches})
 
 
-def previous_search_results(request):
+def previous_search_results(request, pk):
     return render(request, 'api/previous-search-results.html')
 
 
 # fetches tweets
-def get_tweets(search_term, username, date, phrase):
+def get_tweets(search_term, username, date, phrase, search_phrase):
     base_url = 'https://api.twitter.com/'
     API_KEY='3EKHHmkx3AsMZRKbO0yFtEMJZ'
     API_SECRET='ZQC50IwRoKmjHTytNsVn7lzc2sMj6FW55NoT92xeSlheRxsSAR'
@@ -57,8 +60,6 @@ def get_tweets(search_term, username, date, phrase):
     else:
         search_keyword = 'from:'+str(username)
 
-    print(search_keyword)
-
     search_params = {
         'q': search_keyword,
         'result_type': 'recent',
@@ -70,12 +71,10 @@ def get_tweets(search_term, username, date, phrase):
     tweets = requests.get(search_url, params=search_params, auth=auth)
     list_ = []
     # count = 0
-    search_phrase = SearchPhrase.objects.get(phrase=phrase)
-    print(search_phrase.id)
     for i in tweets.json()['statuses']:
         s = i['created_at']
         f1 = '%a %b %d %H:%M:%S +0000 %Y'
         f2 = '%Y-%m-%d'
         out = datetime.strptime('Thu Apr 23 13:38:19 +0000 2009', f1).strftime(f2)
-        list_.append(Tweet(search_phrase=search_phrase, date=out, user=i['user']['name'], post=i['text']))
+        list_.append(Tweet(search_phrase=search_phrase, date=out, user=i['user']['name'], post=i['text'].encode("utf-8")))
     return list_

@@ -32,24 +32,24 @@
     <h1>{{message}}</h1>
   {% else %}
     <div class="table-responsive">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>User</th>
-          <th>Tweet</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for tweet in tweets %}
+      <table class="table">
+        <thead>
           <tr>
-              <td>{{tweet.date}}</td>
-              <td>{{tweet.user}}</td>
-              <td>{{tweet.post}}</td>
+            <th>Date</th>
+            <th>User</th>
+            <th>Tweet</th>
           </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {% for tweet in tweets %}
+            <tr>
+                <td>{{tweet.date}}</td>
+                <td>{{tweet.user}}</td>
+                <td>{{tweet.post}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   {% endif %}
 </div>
