@@ -7,7 +7,6 @@ from django.utils import timezone
 # keeps track of all searches
 class SearchPhrase(models.Model):
     phrase = models.CharField(max_length=1000)
-    sub_phrase = models.CharField(max_length=1000)
     date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
