@@ -3,7 +3,7 @@
 {% block content %}
     <div class="container">
         <h3 class='text-center'><a href="{% url 'api:index'%}">Home</a></h3>
-        <h5> Name in the list follows the order <b>search query</b>(search keyword/username and date of tweet) followed by <b> current datetime</b> </h5>
+        <h5>Name in the list follows the order: <b> current datetime</b> followed by <b>search query</b>(search keyword/username and date of tweet)</h5>
         <div class="list-group">
         {% for search in searches %}
             <a href="{% url 'api:previous-results' search.pk %}" class="list-group-item list-group-item-action">{{search.phrase}}<a>
