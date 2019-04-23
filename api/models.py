@@ -6,7 +6,7 @@ from django.utils import timezone
 
 class SearchPhrase(models.Model):
     phrase = models.CharField(max_length=1000)
-    date = models.DateField(default=timezone.now)
+    date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.phrase
