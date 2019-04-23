@@ -80,7 +80,8 @@ def get_tweets(search_term, username, date, phrase, search_phrase):
         search_keyword = search_term
     else:
         search_keyword = 'from:'+str(username)
-
+    if not date:
+        date = datetime.now().strftime ("%Y-%m-%d")
     search_params = {
         'q': search_keyword,
         'result_type': 'recent',
@@ -97,7 +98,7 @@ def get_tweets(search_term, username, date, phrase, search_phrase):
         s = i['created_at']
         f1 = '%a %b %d %H:%M:%S +0000 %Y'
         f2 = '%Y-%m-%d'
-        out = datetime.strptime('Thu Apr 23 13:38:19 +0000 2009', f1).strftime(f2)
+        out = datetime.strptime(s, f1).strftime(f2)
         list_.append(Tweet(search_phrase=search_phrase, date=out, user=i['user']['name'], post=i['text'].encode("utf-8")))
     return list_
 
