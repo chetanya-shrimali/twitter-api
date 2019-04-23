@@ -8,6 +8,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 from api.models import SearchPhrase, Tweet
 from datetime import datetime
+from credentials import API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET
 
 
 def index(request):
@@ -32,7 +33,7 @@ def index(request):
         Tweet.objects.bulk_create(tweets)
 
         tweets_list = Tweet.objects.filter(search_phrase=search_phrase)
-        paginator = Paginator(tweets_list, 25)
+        paginator = Paginator(tweets_list, 10)
         try:
             tweets = paginator.page(page)
         except PageNotAnInteger:
@@ -57,10 +58,6 @@ def previous_search_results(request, pk):
 # fetches tweets
 def get_tweets(search_term, username, date, phrase, search_phrase):
     base_url = 'https://api.twitter.com/'
-    API_KEY='3EKHHmkx3AsMZRKbO0yFtEMJZ'
-    API_SECRET='ZQC50IwRoKmjHTytNsVn7lzc2sMj6FW55NoT92xeSlheRxsSAR'
-    ACCESS_TOKEN='929630844892753920-e7JREB9wfPtKh4LCmb1QRelbxb4bwXk'
-    ACCESS_TOKEN_SECRET='Q8j3s1CcaTq1YRVYHJzE1oag4pSDiO8o7S4EjfrTItNeN'
 
     auth = OAuth1(API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 

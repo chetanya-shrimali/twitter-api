@@ -4,3 +4,4 @@ twitter_api/*.pyc
 db.sqlite3
 venv
 api/migrations/*.pyc
+credentials.pyc
